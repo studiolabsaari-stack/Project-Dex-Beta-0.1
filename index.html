@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste de vídeo</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #111; }
+    body { display: grid; place-items: center; font-family: system-ui, sans-serif; color: #fff; }
+    main { width: min(1000px, 94vw); text-align: center; }
+    video { width: 100%; max-height: 80vh; background: #000; }
+    #status { margin-top: 12px; font-size: 14px; opacity: .8; }
+  </style>
+</head>
+<body>
+  <main>
+    <video
+      id="video"
+      src="https://slp-statics.astockcdn.net/static_assets/staging/26_video_spring/Hero_Summer.mp4"
+      autoplay
+      muted
+      playsinline
+      controls
+      preload="auto"
+    ></video>
+    <div id="status">Carregando vídeo…</div>
+  </main>
+
+  <script>
+    const video = document.getElementById("video");
+    const status = document.getElementById("status");
+
+    video.addEventListener("loadedmetadata", () => {
+      status.textContent = `Vídeo carregado — ${video.videoWidth}×${video.videoHeight}`;
+    });
+
+    video.addEventListener("canplay", () => {
+      status.textContent = "Vídeo pronto para reproduzir.";
+    });
+
+    video.addEventListener("error", () => {
+      const e = video.error;
+      status.textContent =
+        `Erro ao carregar/reproduzir o vídeo. Código: ${e ? e.code : "desconhecido"}`;
+    });
+
+    video.play().catch(() => {
+      status.textContent = "O navegador bloqueou o autoplay; use o botão Play.";
+    });
+  </script>
+</body>
+</html>
